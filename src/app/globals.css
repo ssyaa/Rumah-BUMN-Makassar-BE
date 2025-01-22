@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* globals.css */
+
+/* Root variabel warna */
+:root {
+  --background: #ffffff;
+  --primary-color: #0d47a1;
+  --secondary-color: #90caf9;
+  --text-color: #171717;
+  --border-color: #e0e0e0;
+  --error-color: #e53935;
+}
+
+/* Gaya dasar */
+body {
+  color: var(--text-color);
+  background: var(--background);
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container utama */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+}
+
+/* Kotak untuk judul */
+.title-box {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Judul login */
+h1 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Kotak untuk form */
+.form-box {
+  width: 100%;
+}
+
+/* Group input */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Label */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+/* Input */
+input {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+/* Tombol login */
+.login-button {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #1565c0;
+}
+
+/* Pesan error */
+.error-message {
+  margin-top: 1rem;
+  color: var(--error-color);
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
