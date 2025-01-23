@@ -52,13 +52,14 @@ body {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
-  background-color: #ffffff;
+  max-width: 300px;
+  background-color: transparent; /* Ubah menjadi transparent */
   border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   padding: 2rem;
 }
+
 
 /* Kotak untuk judul */
 .title-box {

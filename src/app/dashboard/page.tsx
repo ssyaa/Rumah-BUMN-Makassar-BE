@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { auth } from "../../../firebase-config";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import Sidebar from "../components/sidebar";
 
 const DashboardPage = () => {
     const [user, setUser] = useState<any>(null);
@@ -22,27 +23,22 @@ const DashboardPage = () => {
         return () => unsubscribe();
     }, [router]);
 
-    const handleLogout = async () => {
-        try {
-            await signOut(auth); // Logout pengguna
-            router.push("/login"); // Redirect ke halaman login
-        } catch (error) {
-            console.error("Error logging out:", error);
-        }
-    };
-
     return (
-        <div>
-            {user ? (
-                <div>
-                    <h1>Welcome to your Dashboard, {user.displayName || user.email}</h1>
-                    <p>This is your protected dashboard page.</p>
-                    {/* Tombol Logout */}
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            ) : (
-                <p>Loading...</p>
-            )}
+        <div className="flex h-screen">
+            {/* Sidebar yang terpasang di kiri */}
+            <Sidebar />
+            <main className="flex-1 p-6 ml-64">
+                {user ? (
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            Welcome to your Dashboard, {user.displayName || user.email}
+                        </h1>
+                        <p className="mt-2">This is your protected dashboard page.</p>
+                    </div>
+                ) : (
+                    <p>Loading...</p>
+                )}
+            </main>
         </div>
     );
 };
