@@ -1,0 +1,54 @@
+.layoutContainer {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* Menjaga agar layout mengisi seluruh tinggi layar */
+}
+
+.container {
+    flex: 1;
+    padding: 20px;
+    margin-left: 320px; /* Menyesuaikan margin untuk memberi ruang sidebar */
+    overflow-y: auto;
+}
+
+.formWrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.buttonBack {
+    margin-bottom: 20px;
+    background-color: #0070f3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonSubmit {
+    width: 100%;
+    padding: 10px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input, .textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

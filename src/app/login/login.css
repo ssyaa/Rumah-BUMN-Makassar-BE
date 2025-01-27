@@ -1,0 +1,111 @@
+/* Global styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* Set background color to white */
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Judul login */
+h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+
+/* Container to cover the entire viewport */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff; /* Set background color to white */
+    overflow: hidden; /* Prevent scrolling */
+    margin: 0;
+}
+
+/* Login box styling */
+.login-box {
+    width: 100%;
+    max-width: 400px; /* Limit maximum width */
+    padding: 2rem;
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Button styling */
+.login-button {
+    background-color: #001e3e;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.login-button:hover {
+    background-color: #00305e;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Footer styling */
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer img {
+    height: 50px;
+    margin: 0 1rem;
+}
+
+.footer .logo_rb {
+    height: 80px;
+}
