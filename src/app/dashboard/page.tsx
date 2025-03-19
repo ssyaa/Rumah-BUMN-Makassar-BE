@@ -2,82 +2,60 @@
 
 import React, { useEffect, useState } from "react";
 import { auth } from "../../../firebase-config";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import Sidebar from "../components/sidebar";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
+import "./DashboardPage.css"; // Pastikan file CSS sesuai dengan lokasi yang benar
 
-// Inisialisasi Firestore
 const db = getFirestore();
 
 const DashboardPage = () => {
-    const [user, setUser] = useState<any>(null);
-    const [products, setProducts] = useState<any[]>([]); // State untuk menyimpan data produk
+    const [user, setUser] = useState<User | null>(null);
+    const [umkmCount, setUmkmCount] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
-        // Memeriksa apakah ada pengguna yang sedang login
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUser(user); // Set user jika ada yang login
-                fetchProducts(); // Panggil fungsi untuk ambil data produk setelah user login
+                setUser(user);
+                fetchUMKMCount();
             } else {
-                router.push("/login"); // Redirect ke login jika belum login
+                router.push("/login");
             }
         });
-
         return () => unsubscribe();
     }, [router]);
 
-    const fetchProducts = async () => {
+    const fetchUMKMCount = async () => {
         try {
-            const productsCollection = collection(db, "products"); // Ganti nama koleksi menjadi "products"
+            const productsCollection = collection(db, "products");
             const productSnapshot = await getDocs(productsCollection);
-            const productList = productSnapshot.docs.map(doc => ({
-                id: doc.id, // Ambil ID dokumen sebagai identifier
-                ...doc.data() // Ambil data dari dokumen
-            }));
-            setProducts(productList); // Menyimpan data produk ke state
+            setUmkmCount(productSnapshot.size);
         } catch (error) {
-            console.error("Error fetching products: ", error);
+            console.error("Error fetching UMKM count: ", error);
         }
     };
 
     return (
-        <div className="flex h-screen">
-            {/* Sidebar yang terpasang di kiri */}
+        <div className="dashboard-container">
             <Sidebar />
-            <main className="flex-1 p-6 ml-64">
-                {user ? (
-                    <div>
-                        <h1 className="text-2xl font-bold">
-                            Welcome to your Dashboard, {user.displayName || user.email}
-                        </h1>
-                        <p className="mt-2">This is your protected dashboard page.</p>
+            <main className="dashboard-main">
+                <div className="dashboard-content">
+                    {user ? (
+                        <div className="dashboard-text">
+                            <h1>Welcome, {user?.displayName || user?.email}</h1>
+                            <p>This is your protected dashboard page.</p>
 
-                        {/* Menampilkan daftar produk */}
-                        <div className="mt-6">
-                            <h2 className="text-xl font-semibold">Product List</h2>
-                            <ul>
-                                {products.length > 0 ? (
-                                    products.map((product, index) => (
-                                        <li key={index} className="mt-4">
-                                            <div className="border p-4 rounded-lg shadow-md">
-                                                <h3 className="font-semibold">{product.name}</h3>
-                                                <p>{product.description}</p>
-                                                <p className="text-green-600">{product.price}</p>
-                                            </div>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <p>Loading...</p>
-                                )}
-                            </ul>
+                            <div className="dashboard-box">
+                                <h2>UMKM BINAAN</h2>
+                                <p>{umkmCount}</p>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <p>Loading...</p>
-                )}
+                    ) : (
+                        <p className="loading-text">Loading...</p>
+                    )}
+                </div>
             </main>
         </div>
     );

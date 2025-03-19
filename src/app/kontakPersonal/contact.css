@@ -1,0 +1,91 @@
+.container-contact {
+    display: flex;
+    justify-content: center; /* Memusatkan secara horizontal */
+    align-items: center; /* Memusatkan secara vertikal */
+    min-height: 100vh; /* Menyesuaikan tinggi agar berada di tengah */
+    width: 100%;
+    background-color: #f3f4f6;
+    padding-left: 250px;
+}
+
+.content-contact {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Menengahkan konten di dalam */
+    align-items: center;
+    padding: 2rem;
+}
+
+.contentBox {
+    width: 100%;
+    max-width: 900px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Menengahkan isi contentBox */
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tableHeader {
+    background-color: #e5e7eb;
+    font-weight: bold;
+    text-align: left;
+}
+
+.tableRow:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.tableCell {
+    border-bottom: 1px solid #d1d5db;
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.updateActionButton {
+    background-color: #107bb9;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.editActionButton {
+    background-color: #10b981;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+    background-color: #059669;
+}

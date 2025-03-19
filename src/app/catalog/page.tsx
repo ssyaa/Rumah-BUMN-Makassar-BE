@@ -3,22 +3,37 @@
 import { useState } from "react";
 import { firestore } from "../../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation"; // Impor useRouter
-import styles from '../styles/Catalog.module.css'; // Import file CSS
+import { useRouter } from "next/navigation";
+import styles from "../styles/Catalog.module.css";
 import Sidebar from "../components/sidebar";
+import LoadingOverlay from "../../app/components/loadingOverlay";
+import SuccessOverlay from "../../app/components/successOverlay";
 
 const Catalog = () => {
   const [namaBrand, setNamaBrand] = useState("");
   const [namaOwner, setNamaOwner] = useState("");
-  const [descProduct, setdescProduct] = useState("");
-  const [price, setPrice] = useState("");
-  const [jenisUmkm, setjenisUmkm] = useState("F&B"); // Default ke F&B
+  const [nope, setNope] = useState("");
+  const [alamatUsaha, setAlamatUsaha] = useState("");
+  const [igUsaha, setIgUsaha] = useState("");
+  const [deskShortProduk, setDeskShortProduk] = useState("");
+  const [harga, setHarga] = useState("");
+  const [beratProduk, setBeratProduk] = useState("");
+  const [variantProduk, setVariantProduk] = useState("");
+  const [jenisUMKM, setJenisUMKM] = useState("");
   const [fotoProduk, setFotoProduk] = useState<File | null>(null);
-  const [logoUMKM, setLogoUMKM] = useState<File | null>(null);
-  const router = useRouter(); // Inisialisasi useRouter
+  const [logoBrand, setLogoBrand] = useState<File | null>(null);
+  const [fotoOwner, setFotoOwner] = useState<File | null>(null);
+  const [fotoProduksi, setFotoProduksi] = useState<File | null>(null);
+  const [qris, setQris] = useState<File | null>(null);
+  const [makeBrand, setMakeBrand] = useState("");
+  const [howProduction, setHowProduction] = useState("");
+  const [selling, setSelling] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const router = useRouter();
 
-  const CLOUDINARY_PRESET = "unsigned_preset";
-  const CLOUDINARY_CLOUD_NAME = "demffxnd7";
+  const CLOUDINARY_PRESET = "rumah-bumn";
+  const CLOUDINARY_CLOUD_NAME = "doov2xe62";
 
   const uploadToCloudinary = async (file: File) => {
     const formData = new FormData();
@@ -35,141 +50,144 @@ const Catalog = () => {
     }
 
     const data = await response.json();
-    return data.secure_url; // URL gambar yang diunggah
+    return data.secure_url;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
+  
     try {
-      let fotoProdukUrl = "";
-      let logoUMKMUrl = "";
-
-      if (fotoProduk) {
-        fotoProdukUrl = await uploadToCloudinary(fotoProduk);
-      }
-
-      if (logoUMKM) {
-        logoUMKMUrl = await uploadToCloudinary(logoUMKM);
-      }
-
-      // Simpan data ke Firestore dalam koleksi "products"
-      const docRef = await addDoc(collection(firestore, "products"), {
+      const fotoProdukUrl = fotoProduk ? await uploadToCloudinary(fotoProduk) : "";
+      const logoBrandUrl = logoBrand ? await uploadToCloudinary(logoBrand) : "";
+      const fotoOwnerUrl = fotoOwner ? await uploadToCloudinary(fotoOwner) : "";
+      const fotoProduksiUrl = fotoProduksi ? await uploadToCloudinary(fotoProduksi) : "";
+      const qrisUrl = qris ? await uploadToCloudinary(qris) : "";
+  
+      await addDoc(collection(firestore, "products"), {
         namaBrand,
-        descProduct,
         namaOwner,
-        price: parseFloat(price),
-        jenisUmkm,
+        nope,
+        alamatUsaha,
+        igUsaha,
+        deskShortProduk,
+        harga,
+        beratProduk,
+        variantProduk,
+        jenisUMKM,
         fotoProduk: fotoProdukUrl,
-        logoUMKM: logoUMKMUrl,
+        logoBrand: logoBrandUrl,
+        fotoOwner: fotoOwnerUrl,
+        fotoProduksi: fotoProduksiUrl,
+        qris: qrisUrl,
+        makeBrand,
+        howProduction,
+        selling,
         createdAt: new Date(),
       });
-
-      console.log("Data berhasil disimpan dengan ID:", docRef.id);
-      alert("Data berhasil disimpan!");
+  
+      setIsLoading(false);
+      setIsSuccess(true);
+  
+      // Reset form setelah berhasil submit
       setNamaBrand("");
-      setdescProduct("");
       setNamaOwner("");
-      setPrice("");
-      setjenisUmkm("F&B");
+      setNope("");
+      setAlamatUsaha("");
+      setIgUsaha("");
+      setDeskShortProduk("");
+      setHarga("");
+      setBeratProduk("");
+      setVariantProduk("");
+      setJenisUMKM("");
       setFotoProduk(null);
-      setLogoUMKM(null);
+      setLogoBrand(null);
+      setFotoOwner(null);
+      setFotoProduksi(null);
+      setQris(null);
+      setMakeBrand("");
+      setHowProduction("");
+      setSelling("");
+  
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 2000);
     } catch (error) {
-      console.error("Gagal menyimpan data:", error);
-      alert("Gagal menyimpan data. Silakan coba lagi.");
+      console.error("Error submitting catalog:", error);
+      setIsLoading(false);
     }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, setFile: React.Dispatch<React.SetStateAction<File | null>>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    setFile(file);
-  };
-
+  };  
+  
   return (
     <div className={styles.layoutContainer}>
       <Sidebar />
-      <div className={styles.container}> {/* Konten formulir */}
+      {isLoading && <LoadingOverlay />}
+      {isSuccess && <SuccessOverlay />}
+      <div className={styles.container}>
         <div className={styles.formWrapper}>
           <h1 className={styles.formHeader}>Isi E-Katalog</h1>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Nama Brand</label>
-              <input
-                type="text"
-                value={namaBrand}
-                onChange={(e) => setNamaBrand(e.target.value)}
-                required
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Deskripsi Singkat</label>
-              <textarea
-                value={descProduct}
-                onChange={(e) => setdescProduct(e.target.value)}
-                required
-                className={styles.textarea}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Nama Owner</label>
-              <textarea
-                value={namaOwner}
-                onChange={(e) => setNamaOwner(e.target.value)}
-                required
-                className={styles.textarea}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Harga</label>
-              <input
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Jenis UMKM</label>
-              <select
-                value={jenisUmkm}
-                onChange={(e) => setjenisUmkm(e.target.value)}
-                required
-                className={styles.input}
-              >
-                <option value="F&B">F&B</option>
-                <option value="Fashion">Fashion</option>
-                <option value="Craft">Craft</option>
-                <option value="Beauty">Beauty</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Foto Produk</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, setFotoProduk)}
-                required
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Logo UMKM</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, setLogoUMKM)}
-                required
-                className={styles.input}
-              />
-            </div>
-            <button
-              type="submit"
-              className={styles.buttonSubmit}
-            >
-              Simpan
-            </button>
+            {/* Input Teks */}
+            {[
+              { label: "Nama Brand", state: namaBrand, setState: setNamaBrand },
+              { label: "Nama Owner", state: namaOwner, setState: setNamaOwner },
+              { label: "Nomor HP/Whatsapp", state: nope, setState: setNope },
+              { label: "Alamat Usaha", state: alamatUsaha, setState: setAlamatUsaha },
+              { label: "Instagram Usaha", state: igUsaha, setState: setIgUsaha },
+              { label: "Deskripsi Singkat Produk", state: deskShortProduk, setState: setDeskShortProduk },
+              { label: "Harga Produk", state: harga, setState: setHarga },
+              { label: "Berat Produk", state: beratProduk, setState: setBeratProduk },
+              { label: "Variant/Jenis Produk", state: variantProduk, setState: setVariantProduk },
+              { label: "Jenis UMKM", state: jenisUMKM, setState: setJenisUMKM }
+            ].map(({ label, state, setState }, index) => (
+              <div key={index} className={styles.formGroup}>
+                <label className={styles.label}>{label}</label>
+                <input
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  required
+                  className={styles.input}
+                />
+              </div>
+            ))}
+
+            {/* Input File */}
+            {[
+              { label: "Foto Produk", state: fotoProduk, setState: setFotoProduk },
+              { label: "Logo Brand", state: logoBrand, setState: setLogoBrand },
+              { label: "Foto Pemilik Usaha", state: fotoOwner, setState: setFotoOwner },
+              { label: "Foto Tempat Produksi", state: fotoProduksi, setState: setFotoProduksi },
+              { label: "Qris Barcode", state: qris, setState: setQris },
+            ].map(({ label, setState }, index) => (
+              <div key={index} className={styles.formGroup}>
+                <label className={styles.label}>{label}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setState(e.target.files ? e.target.files[0] : null)}
+                  className={styles.input}
+                />
+              </div>
+            ))}
+
+            {/* Input Cerita */}
+            {[
+              { label: "Cerita Bagaimana UMKM Terbentuk", state: makeBrand, setState: setMakeBrand },
+              { label: "Cerita Bagaimana Cara Produksi", state: howProduction, setState: setHowProduction },
+              { label: "Cerita Bagaimana Cara Menjual", state: selling, setState: setSelling },
+            ].map(({ label, state, setState }, index) => (
+              <div key={index} className={styles.formGroup}>
+                <label className={styles.label}>{label}</label>
+                <textarea
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  required
+                  className={styles.textarea}
+                />
+              </div>
+            ))}
+
+            <button type="submit" className={styles.buttonSubmit}>Simpan</button>
           </form>
         </div>
       </div>

@@ -4,33 +4,52 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../../../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import "./login.css"; // Import file login.css
+import LoadingOverlay from "../components/loadingOverlay";
+import "./login.css";
 
 const LoginPage = () => {
     const [form, setForm] = useState({ email: "", password: "" });
     const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrorMessage("");
+        setErrorMessage(""); // Reset error sebelum validasi
+        setIsLoading(true);
+
+        // Validasi input sebelum request ke Firebase
+        if (!form.email && !form.password) {
+            setErrorMessage("Masukkan email dan Password anda dengan Benar");
+            setIsLoading(false);
+            return;
+        }
+        if (!form.email) {
+            setErrorMessage("Masukkan email anda");
+            setIsLoading(false);
+            return;
+        }
+        if (!form.password) {
+            setErrorMessage("Masukkan password anda");
+            setIsLoading(false);
+            return;
+        }
 
         try {
-            const userCredential = await signInWithEmailAndPassword(
-                auth,
-                form.email,
-                form.password
-            );
-            const user = userCredential.user;
-            console.log("User logged in:", user);
+            const userCredential = await signInWithEmailAndPassword(auth, form.email, form.password);
+            console.log("User logged in:", userCredential.user);
             router.push("/dashboard");
-        } catch (error: unknown) {
+        } catch (error: any) {
             console.error("Login error:", error);
-            if (error instanceof Error) {
-                setErrorMessage("Login failed: " + error.message);
+
+            // Menangani error Firebase
+            if (error.code === "auth/invalid-credential") {
+                setErrorMessage("Email dan password yang anda masukkan salah. Masukkan ulang dengan benar");
             } else {
-                setErrorMessage("An unexpected error occurred");
+                setErrorMessage("Terjadi kesalahan: " + error.message);
             }
+            
+            setIsLoading(false);
         }
     };
 
@@ -44,6 +63,7 @@ const LoginPage = () => {
 
     return (
         <div className="login-container">
+            {isLoading && <LoadingOverlay />} {/* Tampilkan loading overlay jika sedang memuat */}
             <div className="login-box">
                 <h1>Login</h1>
                 <form onSubmit={handleLogin}>
@@ -83,7 +103,7 @@ const LoginPage = () => {
                 </div>
                 <p>© 2025 My App. All rights reserved.</p>
                 <div>
-                    <img src="/logo_rbmks.jpeg" alt="Logo RB" className="logo_rb" />
+                    <img src="/logo_rb_mks.jpeg" alt="Logo RB" className="logo_rb" />
                 </div>
             </footer>
         </div>
