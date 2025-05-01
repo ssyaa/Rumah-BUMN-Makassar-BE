@@ -9,7 +9,7 @@ import "./contact.css";
 interface Contact {
     nama: string;
     nope: string;
-    [key: string]: any;
+    [key: string]: string | undefined;
 }
 
 const programs = [
@@ -18,6 +18,7 @@ const programs = [
     { id: "Visit", name: "Visit Rumah Produksi" },
     { id: "LiveTiktok", name: "Live Tiktok" },
     { id: "ekatalog", name: "e-Katalog" },
+    { id: "Design", name: "Design UMKM" },
 ];
 
 export default function ContactPage() {

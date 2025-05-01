@@ -5,19 +5,19 @@ body, html {
     width: 100%;
     height: 100%;
     background-color: #ffffff; /* Set background color to white */
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font global menjadi Poppins */
     justify-content: center;
     align-items: center;
 }
 
 /* Judul login */
 h1 {
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font keluarga menjadi Poppins */
     color: var(--primary-color);
     font-size: 1.8rem;
     font-weight: bold;
     margin: 0;
 }
-
 
 /* Container to cover the entire viewport */
 .login-container {
@@ -25,9 +25,24 @@ h1 {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ffffff; /* Set background color to white */
+    background-image: url('/login_bg.png'); /* Gambar latar belakang */
+    background-size: cover; /* Agar gambar mengisi seluruh layar */
+    background-position: center; /* Posisi gambar di tengah */
+    background-repeat: no-repeat; /* Tidak mengulang gambar */
     overflow: hidden; /* Prevent scrolling */
     margin: 0;
+    position: relative; /* Penting untuk lapisan overlay */
+}
+
+.login-container::before {
+    content: ''; /* Agar elemen tampil */
+    position: absolute; /* Posisi overlay di atas gambar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 255, 0.101); /* Warna hitam dengan transparansi 50% */
+    z-index: 1; /* Pastikan overlay berada di atas gambar */
 }
 
 /* Login box styling */
@@ -35,10 +50,12 @@ h1 {
     width: 100%;
     max-width: 400px; /* Limit maximum width */
     padding: 2rem;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: center;
+    z-index: 2;
+    font-family: 'Poppins', Arial, sans-serif; /* Pastikan login box menggunakan font Poppins */
 }
 
 /* Form group styling */
@@ -52,6 +69,7 @@ label {
     margin-bottom: 0.5rem;
     font-weight: bold;
     color: #333;
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font label menjadi Poppins */
 }
 
 input {
@@ -60,10 +78,12 @@ input {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font input menjadi Poppins */
 }
 
 /* Button styling */
 .login-button {
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font button menjadi Poppins */
     background-color: #001e3e;
     color: #ffffff;
     border: none;
@@ -81,6 +101,7 @@ input {
 
 /* Error message styling */
 .error-message {
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font error message menjadi Poppins */
     color: red;
     margin-top: 1rem;
     font-size: 0.9rem;
@@ -88,6 +109,7 @@ input {
 
 /* Footer styling */
 .footer {
+    font-family: 'Poppins', Arial, sans-serif; /* Ganti font footer menjadi Poppins */
     position: absolute;
     bottom: 0;
     left: 0;

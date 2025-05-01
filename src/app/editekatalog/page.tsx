@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { auth } from "../../../firebase-config";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import Sidebar from "../components/sidebar";
 import ValidasiDelete from "../components/validasiDelete";
@@ -14,17 +14,28 @@ import "./editekatalog.css";
 
 const db = getFirestore();
 
+type Product = {
+    id: string;
+    namaBrand?: string;
+    namaOwner?: string;
+    nope?: string;
+    igUsaha?: string;
+    harga?: string;
+    jenisUMKM?: string;
+    imageUrl?: string;
+};
+
 const EditeKatalog = () => {
-    const [user, setUser] = useState<any>(null);
-    const [products, setProducts] = useState<any[]>([]);
+    const [user, setUser] = useState<User | null>(null);
+    const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState<string | null>(null);
     const [deleteImageUrl, setDeleteImageUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const itemsPerPage = 5;
+
     const router = useRouter();
 
     useEffect(() => {
@@ -40,7 +51,7 @@ const EditeKatalog = () => {
             const productList = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            }));
+            })) as Product[];
             setProducts(productList);
         });
 
@@ -95,8 +106,7 @@ const EditeKatalog = () => {
         product.namaBrand?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-    const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const paginatedProducts = filteredProducts.slice(0, itemsPerPage); // ambil halaman pertama saja
 
     return (
         <div className="edit-container">

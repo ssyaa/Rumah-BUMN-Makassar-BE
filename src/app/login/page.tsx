@@ -6,6 +6,7 @@ import { auth } from "../../../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import LoadingOverlay from "../components/loadingOverlay";
 import "./login.css";
+import Image from 'next/image';
 
 const LoginPage = () => {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -39,16 +40,19 @@ const LoginPage = () => {
             const userCredential = await signInWithEmailAndPassword(auth, form.email, form.password);
             console.log("User logged in:", userCredential.user);
             router.push("/dashboard");
-        } catch (error: any) {
-            console.error("Login error:", error);
-
-            // Menangani error Firebase
-            if (error.code === "auth/invalid-credential") {
-                setErrorMessage("Email dan password yang anda masukkan salah. Masukkan ulang dengan benar");
+        } catch (error: unknown) {
+            if (typeof error === "object" && error !== null && "code" in error && "message" in error) {
+                const firebaseError = error as { code: string; message: string };
+        
+                if (firebaseError.code === "auth/invalid-credential") {
+                    setErrorMessage("Email dan password yang anda masukkan salah. Masukkan ulang dengan benar");
+                } else {
+                    setErrorMessage("Terjadi kesalahan: " + firebaseError.message);
+                }
             } else {
-                setErrorMessage("Terjadi kesalahan: " + error.message);
+                setErrorMessage("Terjadi kesalahan yang tidak diketahui.");
             }
-            
+        
             setIsLoading(false);
         }
     };
@@ -99,11 +103,11 @@ const LoginPage = () => {
 
             <footer className="footer">
                 <div>
-                    <img src="/logo_bumn.png" alt="Logo BUMN" />
+                    <Image src="/logo_bumn.png" alt="Logo BUMN" />
                 </div>
                 <p>© 2025 My App. All rights reserved.</p>
                 <div>
-                    <img src="/logo_rb_mks.jpeg" alt="Logo RB" className="logo_rb" />
+                    <Image src="/logo_rb_mks.jpeg" alt="Logo RB" className="logo_rb" />
                 </div>
             </footer>
         </div>
