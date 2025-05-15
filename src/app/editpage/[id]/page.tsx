@@ -128,10 +128,10 @@ interface ProductData {
         {isLoading && <LoadingOverlay />}
         {isSuccess && <SuccessOverlay />}
         <div className="flex-1 p-6">
-            <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6">
-            <h1 className="text-2xl font-bold text-center mb-4">Edit Product</h1>
+            <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 ml-[300px]">
+            <h1 className="text-2xl font-bold text-center mb-4 text-blue-800">Edit Product</h1>
             <div className="space-y-4">
-                <input type="text" name="namaBrand" value={formData.namaBrand} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Nama Brand" />
+                <input type="text" name="namaBrand" value={formData.namaBrand} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Nama Brand"/>
                 <input type="text" name="namaOwner" value={formData.namaOwner} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Nama Owner" />
                 <input type="text" name="nope" value={formData.nope} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Nomor HP/Whatsapp" />
                 <input type="text" name="alamatUsaha" value={formData.alamatUsaha} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Alamat Usaha" />
@@ -143,7 +143,7 @@ interface ProductData {
                 <input type="text" name="jenisUMKM" value={formData.jenisUMKM} onChange={handleChange} className="w-full p-2 border rounded" placeholder="Jenis UMKM" />
 
                 <div className="text-center">
-                {product?.fotoProduk && <Image src={product.fotoProduk} alt="Foto Produk" width={128} height={128} className="mx-auto rounded" />}
+                {product?.fotoProduk && <Image src={Array.isArray(product.fotoProduk) && product.fotoProduk[0]? product.fotoProduk[0]: "/placeholder.png"} alt="Foto Produk" width={128} height={128} className="mx-auto rounded" />}
                 <p className="text-sm text-gray-500">Foto Produk (Tidak dapat diubah)</p>
                 </div>
                 <div className="text-center">
@@ -155,7 +155,7 @@ interface ProductData {
                 <p className="text-sm text-gray-500">Foto Owner (Tidak dapat diubah)</p>
                 </div>
                 <div className="text-center">
-                {product?.fotoProduksi && <Image src={product.fotoProduksi} alt="Foto Produksi" width={96} height={96} className="mx-auto rounded" />}
+                {product?.fotoProduksi && <Image src={Array.isArray(product.fotoProduksi) && product.fotoProduksi[0]? product.fotoProduksi[0]: "/placeholder.png"} alt="Foto Produksi" width={96} height={96} className="mx-auto rounded" />}
                 <p className="text-sm text-gray-500">Foto Produksi (Tidak dapat diubah)</p>
                 </div>
                 <div className="text-center">
