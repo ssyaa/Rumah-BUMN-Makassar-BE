@@ -124,10 +124,9 @@ input {
 }
 
 .footer img {
-    height: 50px;
     margin: 0 1rem;
 }
 
-.footer .logo_rb {
-    height: 80px;
+.footer p {
+    padding-right: 150px;
 }
