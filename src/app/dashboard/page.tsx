@@ -45,7 +45,7 @@ const DashboardPage = () => {
                     {user ? (
                         <div className="dashboard-text">
                             <h1>Welcome, {user?.displayName || user?.email}</h1>
-                            <p>This is your protected dashboard page.</p>
+                            <p>This is your protected dashboard page for Admin RB.</p>
 
                             <div className="dashboard-box">
                                 <h2>UMKM BINAAN</h2>
