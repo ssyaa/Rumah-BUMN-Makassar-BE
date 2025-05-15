@@ -102,13 +102,19 @@ const LoginPage = () => {
             </div>
 
             <footer className="footer">
-                <div>
-                    <Image src="/logo_bumn.png" alt="Logo BUMN" />
-                </div>
-                <p>© 2025 My App. All rights reserved.</p>
-                <div>
-                    <Image src="/logo_rb_mks.jpeg" alt="Logo RB" className="logo_rb" />
-                </div>
+                <Image 
+                    src="/logo_bumn.png" 
+                    alt="Logo BUMN" 
+                    width={300}   
+                    height={50}
+                    />
+                <p>© 2025 Rumah BUMN Makassar. All rights reserved.</p>
+                <Image 
+                    src="/logo_rb_mks.jpeg" 
+                    alt="Logo rb mks" 
+                    width={150}   
+                    height={200} 
+                    />
             </footer>
         </div>
     );
