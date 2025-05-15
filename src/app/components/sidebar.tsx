@@ -64,13 +64,13 @@ const Sidebar = () => {
                         <li>
                             <button onClick={() => handleNavigation('/editekatalog')} className="flex items-center space-x-3 hover:bg-blue-700 px-4 py-2 rounded-md w-full">
                                 <FaEdit />
-                                <span>Edit E-Katalog</span>
+                                <span>Edit Produk UMKM</span>
                             </button>
                         </li>
                         <li>
                             <button onClick={() => handleNavigation('/catalog')} className="flex items-center space-x-3 hover:bg-blue-700 px-4 py-2 rounded-md w-full">
                                 <FaBook />
-                                <span>Isi E-Katalog</span>
+                                <span>Isi Produk UMKM</span>
                             </button>
                         </li>
                         <li>
